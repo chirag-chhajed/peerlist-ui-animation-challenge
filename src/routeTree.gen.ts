@@ -11,9 +11,44 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as Day5Import } from './routes/day-5'
+import { Route as Day4Import } from './routes/day-4'
+import { Route as Day3Import } from './routes/day-3'
+import { Route as Day2Import } from './routes/day-2'
+import { Route as Day1Import } from './routes/day-1'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const Day5Route = Day5Import.update({
+  id: '/day-5',
+  path: '/day-5',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Day4Route = Day4Import.update({
+  id: '/day-4',
+  path: '/day-4',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Day3Route = Day3Import.update({
+  id: '/day-3',
+  path: '/day-3',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Day2Route = Day2Import.update({
+  id: '/day-2',
+  path: '/day-2',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Day1Route = Day1Import.update({
+  id: '/day-1',
+  path: '/day-1',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,6 +67,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/day-1': {
+      id: '/day-1'
+      path: '/day-1'
+      fullPath: '/day-1'
+      preLoaderRoute: typeof Day1Import
+      parentRoute: typeof rootRoute
+    }
+    '/day-2': {
+      id: '/day-2'
+      path: '/day-2'
+      fullPath: '/day-2'
+      preLoaderRoute: typeof Day2Import
+      parentRoute: typeof rootRoute
+    }
+    '/day-3': {
+      id: '/day-3'
+      path: '/day-3'
+      fullPath: '/day-3'
+      preLoaderRoute: typeof Day3Import
+      parentRoute: typeof rootRoute
+    }
+    '/day-4': {
+      id: '/day-4'
+      path: '/day-4'
+      fullPath: '/day-4'
+      preLoaderRoute: typeof Day4Import
+      parentRoute: typeof rootRoute
+    }
+    '/day-5': {
+      id: '/day-5'
+      path: '/day-5'
+      fullPath: '/day-5'
+      preLoaderRoute: typeof Day5Import
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +109,57 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/day-4': typeof Day4Route
+  '/day-5': typeof Day5Route
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/day-4': typeof Day4Route
+  '/day-5': typeof Day5Route
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/day-4': typeof Day4Route
+  '/day-5': typeof Day5Route
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/day-1' | '/day-2' | '/day-3' | '/day-4' | '/day-5'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/day-1' | '/day-2' | '/day-3' | '/day-4' | '/day-5'
+  id: '__root__' | '/' | '/day-1' | '/day-2' | '/day-3' | '/day-4' | '/day-5'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Day1Route: typeof Day1Route
+  Day2Route: typeof Day2Route
+  Day3Route: typeof Day3Route
+  Day4Route: typeof Day4Route
+  Day5Route: typeof Day5Route
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Day1Route: Day1Route,
+  Day2Route: Day2Route,
+  Day3Route: Day3Route,
+  Day4Route: Day4Route,
+  Day5Route: Day5Route,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +172,31 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/day-1",
+        "/day-2",
+        "/day-3",
+        "/day-4",
+        "/day-5"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/day-1": {
+      "filePath": "day-1.tsx"
+    },
+    "/day-2": {
+      "filePath": "day-2.tsx"
+    },
+    "/day-3": {
+      "filePath": "day-3.tsx"
+    },
+    "/day-4": {
+      "filePath": "day-4.tsx"
+    },
+    "/day-5": {
+      "filePath": "day-5.tsx"
     }
   }
 }
