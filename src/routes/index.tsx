@@ -12,19 +12,17 @@ function RouteComponent() {
         Peerlist UI Animation Challenge
       </h1>
 
-      <Menu className="w-full max-w-sm">
-        <MenuItem className="space-y-2">
-          {[1, 2, 3, 4, 5].map((day) => (
-            <Link
-              key={day}
-              to={`/day-${day}`}
-              className="block px-4 py-3 rounded-lg hover:bg-white transition-colors duration-200 text-zinc-600 hover:text-zinc-900"
-            >
-              Day {day}
-            </Link>
-          ))}
-        </MenuItem>
-      </Menu>
+      <nav className="w-full max-w-sm space-y-2">
+        {[1, 2, 3, 4, 5].map((day) => (
+          <Link
+            key={day}
+            to={`/day-${day}`}
+            className="block px-4 py-3 rounded-lg hover:bg-white transition-colors duration-200 text-zinc-600 hover:text-zinc-900"
+          >
+            Day {day}
+          </Link>
+        ))}
+      </nav>
       <a
         href="https://github.com/chirag-chhajed"
         target="_blank"
