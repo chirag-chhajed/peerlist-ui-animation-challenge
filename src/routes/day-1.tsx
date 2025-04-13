@@ -15,8 +15,6 @@ export const Route = createFileRoute("/day-1")({
   component: App,
 });
 
-// const MenuItem = motion(MenuItemBase);
-// const Menu = motion(MenuBase);
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const menuItems = [

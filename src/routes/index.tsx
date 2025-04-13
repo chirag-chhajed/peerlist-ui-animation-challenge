@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Menu, MenuItem } from "react-aria-components";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -16,7 +15,7 @@ function RouteComponent() {
         {[1, 2, 3, 4, 5].map((day) => (
           <Link
             key={day}
-            to={`/day-${day}`}
+            to={`/day-${day}` as any}
             className="block px-4 py-3 rounded-lg hover:bg-white transition-colors duration-200 text-zinc-600 hover:text-zinc-900"
           >
             Day {day}
