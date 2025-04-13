@@ -1,10 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  CheckCircle,
-  CheckCircle2,
-  LoaderCircle,
-  TriangleAlertIcon,
-} from "lucide-react";
+import { CheckCircle2, LoaderCircle, TriangleAlert } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Button } from "react-aria-components";
@@ -16,79 +11,131 @@ export const Route = createFileRoute("/day-2")({
 function RouteComponent() {
   const [mode, setMode] = useState<"loading" | "safe" | "warning">("loading");
 
+  const cycleStates = () => {
+    setMode("loading");
+
+    setTimeout(() => {
+      setMode("safe");
+    }, 1750);
+
+    setTimeout(() => {
+      setMode("loading");
+    }, 3500);
+
+    setTimeout(() => {
+      setMode("warning");
+    }, 5250);
+  };
+
+  useEffect(() => {
+    cycleStates();
+  }, []);
+
   return (
-    <div className="h-screen p-8">
-      <div className="flex gap-4 justify-between items-center">
-        <Button
-          onPress={() => {
-            setMode("loading");
-
-            setTimeout(() => {
-              setMode("safe");
-            }, 1750);
-
-            setTimeout(() => {
-              setMode("loading");
-            }, 3500);
-
-            setTimeout(() => {
-              setMode("warning");
-            }, 5250);
-          }}
-          type="button"
-          className={"overflow-hidden"}
-        >
-          <AnimatePresence mode="popLayout">
-            {mode === "loading" ? (
-              <motion.span className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 font-medium rounded-full text-sky-500">
-                <motion.span
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    repeatType: "loop",
-                    repeat: Number.POSITIVE_INFINITY,
-                    duration: 1,
-                  }}
-                >
-                  <LoaderCircle className="size-4" />
-                </motion.span>
-                <motion.span>Analyzing Transaction</motion.span>
+    <div className="h-screen p-8 flex flex-col items-center justify-center">
+      <Button
+        onPress={cycleStates}
+        type="button"
+        className="relative overflow-hidden rounded-full"
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {mode === "loading" && (
+            <motion.div
+              key="loading"
+              className="flex items-center gap-2 px-4 py-2 bg-sky-100 font-semibold rounded-full text-sky-500"
+              transition={{
+                opacity: { duration: 0.2 },
+                y: { type: "spring", stiffness: 300, damping: 25 },
+              }}
+            >
+              <motion.span className="animate-spin ease-in-out">
+                <LoaderCircle className="size-4" />
               </motion.span>
-            ) : mode === "safe" ? (
-              <motion.span className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 font-medium rounded-full text-green-500">
-                <motion.span>
-                  <CheckCircle2 className="size-4" />
-                </motion.span>
-                <motion.span
-                  initial={{
-                    x: "100%",
-                  }}
-                  animate={{
-                    x: 0,
-                  }}
-                >
-                  Transaction Safe
-                </motion.span>
+              <motion.span
+                initial={{ x: -10 }}
+                animate={{ x: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                }}
+              >
+                Analyzing Transaction
               </motion.span>
-            ) : mode === "warning" ? (
-              <motion.span className="inline-flex items-center gap-2 px-4 py-2 bg-red-100 font-medium rounded-full text-red-500">
-                <motion.span>
-                  <TriangleAlertIcon className="size-4" />
-                </motion.span>
-                <motion.span
-                  initial={{
-                    x: "100%",
-                  }}
-                  animate={{
-                    x: 0,
-                  }}
-                >
-                  Transaction Warning
-                </motion.span>
+            </motion.div>
+          )}
+
+          {mode === "safe" && (
+            <motion.div
+              key="safe"
+              className="flex items-center gap-2 px-4 py-2 bg-green-100 font-semibold rounded-full text-green-500"
+              transition={{
+                opacity: { duration: 0.2 },
+                y: { type: "spring", stiffness: 300, damping: 25 },
+              }}
+            >
+              <motion.span
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 15,
+                }}
+              >
+                <CheckCircle2 className="size-4" />
               </motion.span>
-            ) : null}
-          </AnimatePresence>
-        </Button>
-      </div>
+              <motion.span
+                initial={{ x: 20 }}
+                animate={{ x: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                }}
+              >
+                Transaction Safe
+              </motion.span>
+            </motion.div>
+          )}
+
+          {mode === "warning" && (
+            <motion.div
+              key="warning"
+              className="flex items-center gap-2 px-4 py-2 bg-red-100 font-semibold rounded-full text-red-500"
+              transition={{
+                opacity: { duration: 0.2 },
+                y: { type: "spring", stiffness: 300, damping: 25 },
+              }}
+            >
+              <motion.span
+                animate={{
+                  x: [0, 1.5, -1.5, 1.5, 0],
+                }}
+                transition={{
+                  duration: 0.4,
+                  repeat: 2,
+                  repeatType: "mirror",
+                  delay: 0.8,
+                }}
+              >
+                <TriangleAlert className="size-4" />
+              </motion.span>
+              <motion.span
+                initial={{ x: 20 }}
+                animate={{ x: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                }}
+              >
+                Transaction Warning
+              </motion.span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Button>
     </div>
   );
 }
