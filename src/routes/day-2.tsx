@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, LoaderCircle, TriangleAlert } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-aria-components";
 
 export const Route = createFileRoute("/day-2")({
@@ -27,16 +27,12 @@ function RouteComponent() {
     }, 5250);
   };
 
-  useEffect(() => {
-    cycleStates();
-  }, []);
-
   return (
     <div className="h-screen p-8 flex flex-col items-center justify-center">
       <Button
         onPress={cycleStates}
         type="button"
-        className="relative overflow-hidden rounded-full"
+        className={"relative overflow-hidden rounded-full"}
       >
         <AnimatePresence mode="wait" initial={false}>
           {mode === "loading" && (
@@ -136,10 +132,7 @@ function RouteComponent() {
           )}
         </AnimatePresence>
       </Button>
-
-      <p className="mt-4 text-sm text-muted-foreground">
-        Tap to see the magic again
-      </p>
+      <p className="mt-4 text-sm text-muted-foreground">Tap to see the magic</p>
     </div>
   );
 }
