@@ -110,7 +110,7 @@ function RouteComponent() {
             >
               <motion.span
                 animate={{
-                  x: [0, 1.5, -1.5, 1.5, 0],
+                  x: [0, -1, 1, -1, 1, -0.5, 0.5, -0.25, 0.25, 0],
                 }}
                 transition={{
                   duration: 0.4,
@@ -136,6 +136,10 @@ function RouteComponent() {
           )}
         </AnimatePresence>
       </Button>
+
+      <p className="mt-4 text-sm text-muted-foreground">
+        Tap to see the magic again
+      </p>
     </div>
   );
 }
