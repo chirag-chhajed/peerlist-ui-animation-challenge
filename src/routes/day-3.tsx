@@ -21,6 +21,7 @@ function RouteComponent() {
           height="18"
           viewBox="0 0 18 18"
           fill="none"
+          className=""
         >
           <motion.rect
             x="0.75"
@@ -38,12 +39,29 @@ function RouteComponent() {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="[stroke-dasharray:15px] [stroke-dashoffset:15px] group-selected:[stroke-dashoffset:0px] transition-all duration-500"
+            className="[stroke-dasharray:15px] group-selected:[stroke-dashoffset:0px] [stroke-dashoffset:15px] transition-all duration-500"
           />
         </svg>
-        <span className="text-zinc-950 group-selected:line-through group-selected:text-zinc-400">
-          Buy groceries
-        </span>
+
+        <div className="relative">
+          <span className="text-zinc-950 group-selected:text-zinc-400">
+            Contenmplate Existence
+          </span>
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox="0 0 100 20"
+            preserveAspectRatio="none"
+          >
+            <motion.path
+              d="M0,10 L100,10"
+              stroke="#9f9fa9"
+              strokeWidth="1"
+              strokeLinecap="round"
+              fill="none"
+              className="[stroke-dasharray:100] [stroke-dashoffset:100] group-selected:[stroke-dashoffset:0] transition-all duration-500"
+            />
+          </svg>
+        </div>
       </Checkbox>
     </div>
   );
