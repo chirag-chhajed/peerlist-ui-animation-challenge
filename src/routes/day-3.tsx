@@ -1,53 +1,166 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LineChart } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useAnimation } from "motion/react";
 import { Checkbox } from "react-aria-components";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/day-3")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const [selected, setSelected] = useState(false);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (selected) {
+      // Selected animation sequence
+      async function animate() {
+        await controls.start("rectInvisible");
+        await controls.start("bgVisible");
+        await controls.start("checkVisible");
+        await controls.start("lineVisible");
+      }
+      animate();
+    } else {
+      // Unselected animation sequence
+      async function animate() {
+        await controls.start("lineInvisible");
+        await controls.start("checkInvisible");
+        await controls.start("bgInvisible");
+        await controls.start("rectVisible");
+      }
+      animate();
+    }
+  }, [selected, controls]);
+
+  // Faster duration for other animations
+  const fastTransition = {
+    duration: 0.25,
+  };
+
+  const variants = {
+    rectInvisible: {
+      strokeDashoffset: 60,
+      transition: fastTransition,
+    },
+    bgVisible: {
+      scale: 1,
+      transition: fastTransition,
+      // transition: springTransition,
+    },
+    checkVisible: {
+      strokeDashoffset: 0,
+      transition: fastTransition,
+    },
+    lineVisible: {
+      strokeDashoffset: 0,
+      transition: {
+        duration: 0.35,
+      },
+    },
+    textSelected: {
+      color: "#a1a1aa",
+      transition: fastTransition,
+    },
+    lineInvisible: {
+      strokeDashoffset: 100,
+      transition: {
+        duration: 0.35,
+      },
+    },
+    textNormal: {
+      color: "#18181b",
+      transition: fastTransition,
+    },
+    checkInvisible: {
+      strokeDashoffset: 15,
+      // transition: {
+      //   duration: 0.3,
+      // },
+    },
+    bgInvisible: {
+      scale: 0,
+      transition: fastTransition,
+    },
+    rectVisible: {
+      strokeDashoffset: 0,
+      transition: fastTransition,
+    },
+  };
+
   return (
     <div className="h-screen p-8 flex flex-col items-center justify-center">
       <Checkbox
-        defaultSelected
+        isSelected={selected}
+        onChange={setSelected}
         className={
           "group cursor-pointer flex items-center gap-2.5 focus:bg-gray-100 hover:bg-gray-100 p-2 rounded-lg"
         }
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          className=""
-        >
-          <motion.rect
-            x="0.75"
-            y="0.75"
-            width="16.5"
-            height="16.5"
-            rx="3.25"
-            stroke="#D1D5DB"
-            strokeWidth="1.5"
-            className="group-selected:[stroke-dasharray:60px] group-selected:[stroke-dashoffset:60px] [stroke-dashoffset:0px] [stroke-dasharray:60px] transition-all duration-500 rotate-180 origin-center group-selected:fill-blue-500"
+        <div className="relative w-[18px] h-[18px]">
+          {/* Background blue circle */}
+          <motion.div
+            className="absolute inset-0 bg-blue-500 rounded-[3.25px]"
+            initial={{ scale: 0 }}
+            animate={controls}
+            variants={{
+              bgVisible: variants.bgVisible,
+              bgInvisible: variants.bgInvisible,
+            }}
           />
-          <motion.path
-            d="M5 9L8 12L13 6"
-            stroke="#fff"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="[stroke-dasharray:15px] group-selected:[stroke-dashoffset:0px] [stroke-dashoffset:15px] transition-all duration-500"
-          />
-        </svg>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            className="absolute inset-0"
+          >
+            <motion.rect
+              x="0.75"
+              y="0.75"
+              width="16.5"
+              height="16.5"
+              rx="3.25"
+              stroke="#D1D5DB"
+              strokeWidth="1.5"
+              className="[stroke-dasharray:60px] rotate-180 origin-center"
+              initial={{ strokeDashoffset: 0 }}
+              animate={controls}
+              variants={{
+                rectInvisible: variants.rectInvisible,
+                rectVisible: variants.rectVisible,
+              }}
+            />
+            <motion.path
+              d="M5 9L8 12L13 6"
+              stroke="#fff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="[stroke-dasharray:15px]"
+              initial={{ strokeDashoffset: 15 }}
+              animate={controls}
+              variants={{
+                checkVisible: variants.checkVisible,
+                checkInvisible: variants.checkInvisible,
+              }}
+            />
+          </svg>
+        </div>
 
         <div className="relative">
-          <span className="text-zinc-950 group-selected:text-zinc-400">
+          <motion.span
+            className="text-zinc-950"
+            animate={controls}
+            variants={{
+              lineVisible: variants.textSelected,
+              lineInvisible: variants.textNormal,
+            }}
+          >
             Contenmplate Existence
-          </span>
+          </motion.span>
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             viewBox="0 0 100 20"
@@ -59,7 +172,13 @@ function RouteComponent() {
               strokeWidth="1"
               strokeLinecap="round"
               fill="none"
-              className="[stroke-dasharray:100] [stroke-dashoffset:100] group-selected:[stroke-dashoffset:0] transition-all duration-500"
+              className="[stroke-dasharray:100]"
+              initial={{ strokeDashoffset: 100 }}
+              animate={controls}
+              variants={{
+                lineVisible: variants.lineVisible,
+                lineInvisible: variants.lineInvisible,
+              }}
             />
           </svg>
         </div>
