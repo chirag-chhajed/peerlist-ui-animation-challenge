@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LineChart } from "lucide-react";
 import { motion } from "motion/react";
 import { Checkbox } from "react-aria-components";
 
@@ -12,7 +13,7 @@ function RouteComponent() {
       <Checkbox
         defaultSelected
         className={
-          "group cursor-pointer flex items-center gap-2.5 focus-visible:bg-gray-100 p-2 rounded-lg"
+          "group cursor-pointer flex items-center gap-2.5 focus:bg-gray-100 hover:bg-gray-100 p-2 rounded-lg"
         }
       >
         <svg
@@ -66,3 +67,14 @@ function RouteComponent() {
     </div>
   );
 }
+
+// When the checkbox is selected:
+// 1. the checkbox rect path becomes invisible
+// 2. the bg blue pops up or scales up to 1
+// 3. the checkmark path becomes visible and line through becomes visible and the text color changes
+
+// When the checkbox is unselected:
+// 1. The line through becomes invisible and the text color becomes original
+// 2. The checkmark path becomes invisible
+// 3. The bg blue scales down to 0
+// 4. The checkbox rect path becomes visible again
