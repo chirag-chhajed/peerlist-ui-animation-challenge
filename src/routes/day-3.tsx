@@ -67,9 +67,9 @@ const SingleCheckboxWithLabel = ({ label }: { label: string }) => {
     },
     lineVisible: {
       strokeDashoffset: 0,
-      transition: {
-        duration: 0.35,
-      },
+      // transition: {
+      //   duration: 0.3,
+      // },
     },
     textSelected: {
       color: "#a1a1aa",
@@ -77,9 +77,9 @@ const SingleCheckboxWithLabel = ({ label }: { label: string }) => {
     },
     lineInvisible: {
       strokeDashoffset: 100,
-      transition: {
-        duration: 0.35,
-      },
+      // transition: {
+      //   duration: 0.3,
+      // },
     },
     textNormal: {
       color: "#18181b",
