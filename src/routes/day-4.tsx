@@ -8,7 +8,7 @@ export const Route = createFileRoute("/day-4")({
 
 function RouteComponent() {
   const [activePricing, setActivePricing] = useState("Free");
-  const [activePlan, setActivePlan] = useState("Annual");
+  const [activePlan, setActivePlan] = useState("Monthly");
   const pricingContainerRef = useRef<HTMLDivElement>(null);
   const activePricingRef = useRef<HTMLLIElement>(null);
   const planContainerRef = useRef<HTMLDivElement>(null);
@@ -67,19 +67,22 @@ function RouteComponent() {
                 <p>Free</p>
               </div>
             </li>
+
             <li
               ref={activePricing === "Premium" ? activePricingRef : null}
               className="w-52 h-15 py-2 flex items-center justify-center rounded-full cursor-pointer"
               onClick={() => setActivePricing("Premium")}
             >
-              <div className="flex flex-col items-center justify-center">
-                <p>Premium</p>
-                <p className="text-sm font-medium flex items-center gap-1">
-                  <span>Monthly</span>
-                  <span>.</span>
-                  <span>Annual</span>
-                </p>
-              </div>
+              {activePricing === "Free" ? (
+                <div className="flex flex-col items-center justify-center">
+                  <p>Premium</p>
+                  <p className="text-sm font-medium flex items-center gap-1">
+                    <motion.span layoutId="monthly">Monthly</motion.span>
+                    <span>.</span>
+                    <motion.span layoutId="annual">Annual</motion.span>
+                  </p>
+                </div>
+              ) : null}
             </li>
           </ul>
 
@@ -94,46 +97,50 @@ function RouteComponent() {
                   <p>Free</p>
                 </div>
               </li>
-              <li className="w-52 h-15 flex items-center justify-center bg-black text-white rounded-full">
-                <div className="p-1 w-full h-full">
-                  <div className="rounded-full relative font-semibold h-full">
-                    <ul className="flex gap-1 h-full">
-                      <li
-                        ref={activePlan === "Monthly" ? activePlanRef : null}
-                        onClick={(e) => {
-                          setActivePlan("Monthly");
-                        }}
-                        className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
-                      >
-                        <p>Monthly</p>
-                      </li>
-                      <li
-                        ref={activePlan === "Annual" ? activePlanRef : null}
-                        onClick={(e) => {
-                          setActivePlan("Annual");
-                        }}
-                        className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
-                      >
-                        <p>Annual</p>
-                      </li>
-                    </ul>
-                    {/* Nested white overlay */}
-                    <div
-                      ref={planContainerRef}
-                      className="absolute inset-0 bg-white rounded-full overflow-hidden transition-[clip-path] duration-300 ease-in-out "
-                    >
-                      <ul className="flex gap-1 h-full bg-white">
-                        <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
-                          <p>Monthly</p>
+              {activePricing === "Premium" ? (
+                <li className="w-52 h-15 flex items-center justify-center bg-black text-white rounded-full">
+                  <div className="p-1 w-full h-full">
+                    <div className="rounded-full relative font-semibold h-full">
+                      <ul className="flex gap-1 h-full">
+                        <li
+                          ref={activePlan === "Monthly" ? activePlanRef : null}
+                          onClick={(e) => {
+                            setActivePlan("Monthly");
+                          }}
+                          className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                        >
+                          <span layoutId="monthly">Monthly</span>
                         </li>
-                        <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
-                          <p>Annual</p>
+                        <li
+                          ref={activePlan === "Annual" ? activePlanRef : null}
+                          onClick={(e) => {
+                            setActivePlan("Annual");
+                          }}
+                          className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                        >
+                          <motion.span layoutId="annual">Annual</motion.span>
                         </li>
                       </ul>
+                      {/* Nested white overlay */}
+                      <div
+                        ref={planContainerRef}
+                        className="absolute inset-0 bg-white rounded-full overflow-hidden transition-[clip-path] duration-300 ease-in-out "
+                      >
+                        <ul className="flex gap-1 h-full bg-white">
+                          <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
+                            <motion.span layoutId="monthly">
+                              Monthly
+                            </motion.span>
+                          </li>
+                          <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
+                            <span>Annual</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>
