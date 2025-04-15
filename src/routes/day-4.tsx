@@ -8,7 +8,7 @@ export const Route = createFileRoute("/day-4")({
 
 function RouteComponent() {
   const [activePricing, setActivePricing] = useState("Free");
-  const [activePlan, setActivePlan] = useState("Monthly");
+  const [activePlan, setActivePlan] = useState("Annual");
   const pricingContainerRef = useRef<HTMLDivElement>(null);
   const activePricingRef = useRef<HTMLLIElement>(null);
   const planContainerRef = useRef<HTMLDivElement>(null);
@@ -98,37 +98,35 @@ function RouteComponent() {
                 <div className="p-1 w-full h-full">
                   <div className="rounded-full relative font-semibold h-full">
                     <ul className="flex gap-1 h-full">
-                      <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white">
+                      <li
+                        ref={activePlan === "Monthly" ? activePlanRef : null}
+                        onClick={(e) => {
+                          setActivePlan("Monthly");
+                        }}
+                        className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                      >
                         <p>Monthly</p>
                       </li>
-                      <li className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white">
+                      <li
+                        ref={activePlan === "Annual" ? activePlanRef : null}
+                        onClick={(e) => {
+                          setActivePlan("Annual");
+                        }}
+                        className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                      >
                         <p>Annual</p>
                       </li>
                     </ul>
                     {/* Nested white overlay */}
                     <div
                       ref={planContainerRef}
-                      className="absolute inset-0 bg-white rounded-full overflow-hidden transition-[clip-path] duration-300 ease-in-out"
+                      className="absolute inset-0 bg-white rounded-full overflow-hidden transition-[clip-path] duration-300 ease-in-out "
                     >
                       <ul className="flex gap-1 h-full bg-white">
-                        <li
-                          ref={activePlan === "Monthly" ? activePlanRef : null}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActivePlan("Monthly");
-                          }}
-                          className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black"
-                        >
+                        <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
                           <p>Monthly</p>
                         </li>
-                        <li
-                          ref={activePlan === "Annual" ? activePlanRef : null}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActivePlan("Annual");
-                          }}
-                          className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black"
-                        >
+                        <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
                           <p>Annual</p>
                         </li>
                       </ul>
