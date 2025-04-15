@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion, LayoutGroup } from "motion/react";
+import { motion } from "motion/react";
 
 export const Route = createFileRoute("/day-4")({
   component: RouteComponent,
@@ -14,8 +14,6 @@ function RouteComponent() {
   const planContainerRef = useRef<HTMLDivElement>(null);
   const activePlanRef = useRef<HTMLSpanElement>(null);
 
-  // Main tab clip-path
-  console.log(activePlan, activePricing);
   useEffect(() => {
     const container = pricingContainerRef.current;
     const activeElement = activePricingRef.current;
