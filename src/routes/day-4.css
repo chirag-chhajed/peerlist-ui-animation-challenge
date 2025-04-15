@@ -1,9 +1,5 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 0 16px;
-    height: 100vh;
 }
 
 .wrapper {
@@ -25,7 +21,7 @@ body {
 }
 
 .list-overlay {
-    background: #2090FF;
+    background: #000;
 }
 
 .button {
