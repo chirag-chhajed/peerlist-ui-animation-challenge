@@ -55,7 +55,22 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-8">
-      <div className="flex items-center justify-center p-1 shadow-md rounded-full">
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap"
+        rel="stylesheet"
+      />
+      <div
+        style={{
+          fontFamily: "Sora, sans-serif",
+        }}
+        className="flex items-center justify-center p-1 shadow-md rounded-full"
+      >
         <div className="rounded-full font-semibold relative">
           <ul className="flex gap-2 rounded-full">
             <li
@@ -109,7 +124,13 @@ function RouteComponent() {
                           }}
                           className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
                         >
-                          <span layoutId="monthly">Monthly</span>
+                          {activePlan === "Monthly" ? (
+                            <motion.span layoutId="monthly">
+                              Monthly
+                            </motion.span>
+                          ) : (
+                            <span>Monthly</span>
+                          )}
                         </li>
                         <li
                           ref={activePlan === "Annual" ? activePlanRef : null}
@@ -118,7 +139,11 @@ function RouteComponent() {
                           }}
                           className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
                         >
-                          <motion.span layoutId="annual">Annual</motion.span>
+                          {activePlan === "Monthly" ? (
+                            <motion.span layoutId="annual">Annual</motion.span>
+                          ) : (
+                            <span>Annual</span>
+                          )}
                         </li>
                       </ul>
                       {/* Nested white overlay */}
@@ -128,12 +153,22 @@ function RouteComponent() {
                       >
                         <ul className="flex gap-1 h-full bg-white">
                           <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
-                            <motion.span layoutId="monthly">
-                              Monthly
-                            </motion.span>
+                            {activePlan === "Monthly" ? (
+                              <motion.span layoutId="monthly">
+                                Monthly
+                              </motion.span>
+                            ) : (
+                              <span>Monthly</span>
+                            )}
                           </li>
                           <li className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer text-black">
-                            <span>Annual</span>
+                            {activePlan === "Annual" ? (
+                              <motion.span layoutId="annual">
+                                Annual
+                              </motion.span>
+                            ) : (
+                              <span>Annual</span>
+                            )}
                           </li>
                         </ul>
                       </div>
