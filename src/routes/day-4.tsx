@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { useTabList, useTab } from "react-aria";
+import { useTabListState } from "react-stately";
 
 export const Route = createFileRoute("/day-4")({
   component: RouteComponent,
@@ -9,14 +11,77 @@ export const Route = createFileRoute("/day-4")({
 function RouteComponent() {
   const [activePricing, setActivePricing] = useState("Free");
   const [activePlan, setActivePlan] = useState("Monthly");
-  const pricingContainerRef = useRef<HTMLDivElement>(null);
-  const activePricingRef = useRef<HTMLLIElement>(null);
-  const planContainerRef = useRef<HTMLDivElement>(null);
-  const activePlanRef = useRef<HTMLSpanElement>(null);
+  const pricingContainerRef = useRef<HTMLUListElement>(null);
+  const planContainerRef = useRef<HTMLUListElement>(null);
+
+  // For clip-path animation
+  const pricingOverlayRef = useRef<HTMLDivElement>(null);
+  const planOverlayRef = useRef<HTMLDivElement>(null);
+
+  // React Aria tab list state
+  const pricingState = useTabListState({
+    selectedKey: activePricing,
+    onSelectionChange: (key) => setActivePricing(key as string),
+  });
+
+  const planState = useTabListState({
+    selectedKey: activePlan,
+    onSelectionChange: (key) => setActivePlan(key as string),
+  });
+
+  // React Aria tab list props
+  const { tabListProps: pricingTabListProps } = useTabList(
+    {
+      "aria-label": "Pricing options",
+      orientation: "horizontal",
+    },
+    pricingState,
+    pricingContainerRef
+  );
+
+  const { tabListProps: planTabListProps } = useTabList(
+    {
+      "aria-label": "Subscription period",
+      orientation: "horizontal",
+    },
+    planState,
+    planContainerRef
+  );
+
+  // React Aria tab props for each tab
+  const freeTabRef = useRef<HTMLLIElement>(null);
+  const premiumTabRef = useRef<HTMLLIElement>(null);
+  const monthlyTabRef = useRef<HTMLLIElement>(null);
+  const annualTabRef = useRef<HTMLLIElement>(null);
+
+  const { tabProps: freeTabProps } = useTab(
+    { key: "Free" },
+    pricingState,
+    freeTabRef
+  );
+
+  const { tabProps: premiumTabProps } = useTab(
+    { key: "Premium" },
+    pricingState,
+    premiumTabRef
+  );
+
+  const { tabProps: monthlyTabProps } = useTab(
+    { key: "Monthly" },
+    planState,
+    monthlyTabRef
+  );
+
+  const { tabProps: annualTabProps } = useTab(
+    { key: "Annual" },
+    planState,
+    annualTabRef
+  );
 
   useEffect(() => {
-    const container = pricingContainerRef.current;
-    const activeElement = activePricingRef.current;
+    const container = pricingOverlayRef.current;
+    const activeElement =
+      activePricing === "Free" ? freeTabRef.current : premiumTabRef.current;
 
     if (container && activeElement) {
       const { offsetLeft, offsetWidth } = activeElement;
@@ -35,8 +100,9 @@ function RouteComponent() {
   useEffect(() => {
     if (activePricing !== "Premium") return;
 
-    const container = planContainerRef.current;
-    const activeElement = activePlanRef.current;
+    const container = planOverlayRef.current;
+    const activeElement =
+      activePlan === "Monthly" ? monthlyTabRef.current : annualTabRef.current;
 
     if (container && activeElement) {
       const { offsetLeft, offsetWidth } = activeElement;
@@ -70,10 +136,15 @@ function RouteComponent() {
         className="flex items-center justify-center p-1 shadow-md rounded-full"
       >
         <div className="rounded-full font-semibold relative">
-          <ul className="flex gap-2 rounded-full">
+          <ul
+            className="flex gap-2 rounded-full"
+            {...pricingTabListProps}
+            ref={pricingContainerRef}
+          >
             <li
-              ref={activePricing === "Free" ? activePricingRef : null}
+              ref={freeTabRef}
               className="w-52 h-15 py-2 flex items-center justify-center rounded-full cursor-pointer"
+              {...freeTabProps}
               onClick={() => setActivePricing("Free")}
             >
               <div>
@@ -82,8 +153,9 @@ function RouteComponent() {
             </li>
 
             <li
-              ref={activePricing === "Premium" ? activePricingRef : null}
+              ref={premiumTabRef}
               className="w-52 h-15 py-2 flex items-center justify-center rounded-full cursor-pointer"
+              {...premiumTabProps}
               onClick={() => setActivePricing("Premium")}
             >
               {activePricing === "Free" ? (
@@ -101,7 +173,7 @@ function RouteComponent() {
 
           {/* Main black overlay */}
           <div
-            ref={pricingContainerRef}
+            ref={pricingOverlayRef}
             className="w-full absolute overflow-hidden z-10 inset-0 transition-[clip-path] duration-300 ease-in-out bg-black"
           >
             <ul className="flex gap-2 rounded-full bg-black">
@@ -114,13 +186,16 @@ function RouteComponent() {
                 <li className="w-52 h-15 flex items-center justify-center bg-black text-white rounded-full">
                   <div className="p-1 w-full h-full">
                     <div className="rounded-full relative font-semibold h-full">
-                      <ul className="flex gap-1 h-full">
+                      <ul
+                        className="flex gap-1 h-full"
+                        {...planTabListProps}
+                        ref={planContainerRef}
+                      >
                         <li
-                          ref={activePlan === "Monthly" ? activePlanRef : null}
-                          onClick={(e) => {
-                            setActivePlan("Monthly");
-                          }}
+                          ref={monthlyTabRef}
                           className="flex-1 py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                          {...monthlyTabProps}
+                          onClick={() => setActivePlan("Monthly")}
                         >
                           {activePlan === "Monthly" ? (
                             <motion.span layoutId="monthly">
@@ -131,11 +206,10 @@ function RouteComponent() {
                           )}
                         </li>
                         <li
-                          ref={activePlan === "Annual" ? activePlanRef : null}
-                          onClick={(e) => {
-                            setActivePlan("Annual");
-                          }}
+                          ref={annualTabRef}
                           className="flex-1  py-2 flex items-center justify-center rounded-full cursor-pointer bg-black text-white"
+                          {...annualTabProps}
+                          onClick={() => setActivePlan("Annual")}
                         >
                           {activePlan === "Monthly" ? (
                             <motion.span layoutId="annual">Annual</motion.span>
@@ -146,7 +220,7 @@ function RouteComponent() {
                       </ul>
                       {/* Nested white overlay */}
                       <div
-                        ref={planContainerRef}
+                        ref={planOverlayRef}
                         className="absolute inset-0 bg-white rounded-full overflow-hidden transition-[clip-path] duration-300 ease-in-out "
                       >
                         <ul className="flex gap-1 h-full bg-white">
