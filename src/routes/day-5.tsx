@@ -28,8 +28,9 @@ function RouteComponent() {
       <div
         style={{
           fontFamily: "Inter, sans-serif",
+          boxShadow: "0 1px 1px 0 rgba(0, 0, 0, .03)",
         }}
-        className="shadow-md p-4 h-96 rounded-xl"
+        className="p-4 h-96 rounded-lg border border-[#ebebeb]"
       >
         <h1 className="font-medium">Collectibles</h1>
         <Tabs
