@@ -5,6 +5,13 @@ import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/day-3")({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: "Day 3",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

@@ -69,5 +69,11 @@ export const Route = createRootRoute({
           "https://res.cloudinary.com/dz04dxsi9/image/upload/v1744904840/og_image_ogpxrf.png",
       },
     ],
+    links: [
+      {
+        rel: "icon",
+        href: "/icon.svg",
+      },
+    ],
   }),
 });

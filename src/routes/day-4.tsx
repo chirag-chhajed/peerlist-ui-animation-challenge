@@ -6,6 +6,13 @@ import { useTabListState } from "react-stately";
 
 export const Route = createFileRoute("/day-4")({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: "Day 4",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

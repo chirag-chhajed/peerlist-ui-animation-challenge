@@ -8,6 +8,13 @@ import { motion } from "motion/react";
 
 export const Route = createFileRoute("/day-5")({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: "Day 5",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

@@ -13,6 +13,13 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/day-1")({
   component: App,
+  head: () => ({
+    meta: [
+      {
+        title: "Day 1",
+      },
+    ],
+  }),
 });
 
 function App() {

@@ -6,6 +6,13 @@ import { Button } from "react-aria-components";
 
 export const Route = createFileRoute("/day-2")({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: "Day 2",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
