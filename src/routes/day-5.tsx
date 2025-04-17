@@ -14,7 +14,7 @@ function RouteComponent() {
   const [selectedTab, setSelectedTab] = useState<Key>("list-view");
 
   return (
-    <div className="h-screen flex items-center justify-center p-8">
+    <div className="h-screen flex items-center justify-center p-1">
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
         rel="preconnect"
